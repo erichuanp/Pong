@@ -5,6 +5,7 @@ import winsound
 # 变量
 openAI = False  # AI 开关
 gameStart = False  # 游戏开关
+gameEnd = False
 gameProcess = 0  # 游戏次数
 mapWidth = 800  # 地图宽度
 mapHeight = 600  # 地图高度
@@ -154,6 +155,9 @@ def ai():
     global openAI
     openAI = not openAI
 
+def esc():
+    global gameEnd
+    gameEnd = True
 
 pong.listen()
 pong.onkeypress(LUP, 'w')
@@ -162,9 +166,10 @@ pong.onkeypress(RUP, 'Up')
 pong.onkeypress(RDN, 'Down')
 pong.onkeypress(start, 'space')
 pong.onkeypress(ai, 'c')
+pong.onkeypress(esc, 'Escape')
 
 # 持续更新游戏
-while True:
+while not gameEnd:
     pong.update()
     # 球移动
     if gameStart:
@@ -172,7 +177,7 @@ while True:
         B.sety(B.ycor() + B.dy)
         info.clear()
     else:
-        info.write('请按下 Space 键开始/暂停游戏\n   按下 c 键开始人机对战', align='center', font=('Courier', 24, 'normal'))
+        info.write('按下 Space 键开始/暂停游戏\n  按下 C 键开启/关闭人机\n   按下 Esc 键退出游戏', align='center', font=('Courier', 24, 'normal'))
 
     # 检测球边界且弹回
     if B.ycor() > mapEdgeUP:
